@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_coin"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            tools:src="@drawable/ic_error" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75">
+
+            <TextView
+                android:id="@+id/tv_coin_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:lines="1"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:text="YBC" />
+
+            <TextView
+                android:id="@+id/tv_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right|bottom"
+                android:lines="1"
+                android:paddingRight="15dp"
+                android:textSize="15sp"
+                android:textColor="#4fc3f7"
+                android:textStyle="bold"
+                tools:text="2017/6/29" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_buy_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:lines="1"
+                android:text="买入价" />
+
+            <TextView
+                android:id="@+id/tv_sold_out"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:lines="1"
+                tools:text="卖出价" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_current_pri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:lines="1"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="当前价:" />
+
+            <TextView
+                android:id="@+id/tv_in_24h"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:lines="1"
+                android:gravity="left"
+                android:layout_weight="1"
+                tools:text="24H价格:" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
