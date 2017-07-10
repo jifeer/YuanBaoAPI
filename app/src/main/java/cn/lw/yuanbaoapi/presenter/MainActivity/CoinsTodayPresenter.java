@@ -1,4 +1,4 @@
-package cn.lw.yuanbaoapi.presenter;
+package cn.lw.yuanbaoapi.presenter.MainActivity;
 
 /**
  * Created by Administrator on 2017/6/29.

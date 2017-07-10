@@ -1,5 +1,6 @@
 package cn.lw.yuanbaoapi.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -10,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -20,13 +20,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lw.yuanbaoapi.R;
-import cn.lw.yuanbaoapi.presenter.MainPresenterImpl;
+import cn.lw.yuanbaoapi.presenter.MainActivity.MainPresenterImpl;
 import cn.lw.yuanbaoapi.ui.adapter.MainFragmentsAdapter;
 import cn.lw.yuanbaoapi.ui.fragment.HistoryFragment;
 import cn.lw.yuanbaoapi.ui.fragment.TodayFragment;
 import cn.lw.yuanbaoapi.view.MainView;
 
-public class MainActivity extends AppCompatActivity implements MainView,NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements MainView,NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tabs) TabLayout tabs;
     @BindView(R.id.appbar) AppBarLayout appbar;
@@ -104,6 +104,11 @@ public class MainActivity extends AppCompatActivity implements MainView,Navigati
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.webView:
+                item.setCheckable(true);
+                Intent intent = new Intent(this, WebViewActivity.class);
+                startActivity(intent);
+                break;
             case R.id.today:
                 item.setChecked(true);
                 presenter.switchView(0);
@@ -115,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements MainView,Navigati
             case R.id.weather:
                 item.setChecked(true);
                 break;
+
         }
         activityMain.closeDrawer(GravityCompat.START);
         return false;

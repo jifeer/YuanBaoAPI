@@ -4,26 +4,29 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/today"
-            android:icon="@drawable/ic_action_today"
-            android:title="今日行情"
-            android:checked="true"
+            android:id="@+id/webView"
             android:checkable="true"
-            />
-s
+            android:icon="@drawable/ic_action_web"
+            android:title="元宝官网" />
+
+        <item
+            android:id="@+id/today"
+            android:checkable="true"
+            android:checked="true"
+            android:icon="@drawable/ic_action_today"
+            android:title="今日行情" />
+        s
         <item
             android:id="@+id/history"
-            android:icon="@drawable/ic_action_history"
-            android:title="历史行情"
             android:checkable="true"
-            />
+            android:icon="@drawable/ic_action_history"
+            android:title="历史行情" />
 
         <item
             android:id="@+id/weather"
-            android:icon="@drawable/ic_action_weather"
-            android:title="本地天气"
             android:checkable="true"
-            />
+            android:icon="@drawable/ic_action_weather"
+            android:title="本地天气" />
 
     </group>
 </menu>

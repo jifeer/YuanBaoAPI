@@ -22,8 +22,8 @@ import cn.lw.yuanbaoapi.R;
 import cn.lw.yuanbaoapi.api.YuanbaoApi;
 import cn.lw.yuanbaoapi.api.YuanbaoInterface;
 import cn.lw.yuanbaoapi.entity.Coin;
-import cn.lw.yuanbaoapi.presenter.CoinsTodayPresenter;
-import cn.lw.yuanbaoapi.presenter.CoinsTodayPresenterImpl;
+import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenter;
+import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenterImpl;
 import cn.lw.yuanbaoapi.ui.adapter.PriOfCoinsAdapter;
 import cn.lw.yuanbaoapi.view.CoinsTodayView;
 

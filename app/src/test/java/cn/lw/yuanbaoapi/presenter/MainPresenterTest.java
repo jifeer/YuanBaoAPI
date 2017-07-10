@@ -1,4 +1,4 @@
-package cn.lw.yuanbaoapi.test;
+package cn.lw.yuanbaoapi.presenter;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -18,8 +18,8 @@ import cn.lw.yuanbaoapi.RxAsynRules;
 import cn.lw.yuanbaoapi.api.YuanbaoInterface;
 import cn.lw.yuanbaoapi.commons.Constant;
 import cn.lw.yuanbaoapi.entity.Coin;
-import cn.lw.yuanbaoapi.presenter.CoinsTodayPresenter;
-import cn.lw.yuanbaoapi.presenter.CoinsTodayPresenterImpl;
+import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenter;
+import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenterImpl;
 import cn.lw.yuanbaoapi.view.CoinsTodayView;
 import io.reactivex.Observable;
 

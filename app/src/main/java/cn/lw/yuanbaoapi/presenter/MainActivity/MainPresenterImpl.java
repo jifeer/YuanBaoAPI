@@ -1,4 +1,4 @@
-package cn.lw.yuanbaoapi.presenter;
+package cn.lw.yuanbaoapi.presenter.MainActivity;
 
 import cn.lw.yuanbaoapi.view.MainView;
 
