@@ -18,4 +18,8 @@ public class ImageLoader {
     public static void loadImageWithCenterCropMode(ImageView view, String imgUrl){
         Picasso.with(view.getContext()).load(imgUrl).centerCrop().error(R.drawable.ic_error).into(view);
     }
+
+    public static void loadLocalImage(ImageView view, int resId){
+        Picasso.with(view.getContext()).load(resId).error(R.drawable.ic_error).into(view);
+    }
 }

@@ -83,12 +83,12 @@ public class MainActivity extends BaseActivity implements MainView,NavigationVie
 
     @Override
     public void switchToTodayInfo() {
-        viewpager.setCurrentItem(0);
+        viewpager.setCurrentItem(1);
     }
 
     @Override
     public void switchToHistoryInfo() {
-        viewpager.setCurrentItem(1);
+        viewpager.setCurrentItem(2);
     }
 
     @Override
@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity implements MainView,NavigationVie
         toolbar.setTitle(title);
     }
 
+    //控制侧边栏字体变色
     @Override
     public void setMenuSelected(int position) {
         navigationView.getMenu().getItem(position).setChecked(true);
@@ -105,17 +106,18 @@ public class MainActivity extends BaseActivity implements MainView,NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.webView:
+                setMenuSelected(0);
                 item.setCheckable(true);
                 Intent intent = new Intent(this, WebViewActivity.class);
                 startActivity(intent);
                 break;
             case R.id.today:
                 item.setChecked(true);
-                presenter.switchView(0);
+                presenter.switchView(1);
                 break;
             case R.id.history:
                 item.setChecked(true);
-                presenter.switchView(1);
+                presenter.switchView(2);
                 break;
             case R.id.weather:
                 item.setChecked(true);

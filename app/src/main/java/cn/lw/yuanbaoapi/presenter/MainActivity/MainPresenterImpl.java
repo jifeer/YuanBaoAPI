@@ -15,12 +15,12 @@ public class MainPresenterImpl implements MainPresenter {
     @Override
     public void switchView(int position) {
         switch (position){
-            case 0:
+            case 1:
                 mainView.switchToTodayInfo();
                 mainView.setToolbarTitle("今日行情");
                 mainView.setMenuSelected(position);
                 break;
-            case 1:
+            case 2:
                 mainView.switchToHistoryInfo();
                 mainView.setToolbarTitle("历史行情");
                 mainView.setMenuSelected(position);

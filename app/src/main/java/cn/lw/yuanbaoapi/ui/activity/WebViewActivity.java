@@ -23,7 +23,6 @@ import cn.lw.yuanbaoapi.presenter.WebViewActivity.WebViewPersenter;
 import cn.lw.yuanbaoapi.presenter.WebViewActivity.WebViewPresenterImpl;
 import cn.lw.yuanbaoapi.utils.ImageLoader;
 
-import static cn.lw.yuanbaoapi.commons.Urls.RANDOM_IMG;
 import static cn.lw.yuanbaoapi.commons.Urls.YUANBAO_COINS_URL;
 
 public class WebViewActivity extends BaseActivity implements cn.lw.yuanbaoapi.view.WebView{
@@ -137,7 +136,7 @@ public class WebViewActivity extends BaseActivity implements cn.lw.yuanbaoapi.vi
         imgError.setVisibility(View.GONE);
         webView.setVisibility(View.VISIBLE);
         webView.loadUrl(YUANBAO_COINS_URL);
-        ImageLoader.loadImage(backdrop, RANDOM_IMG);
+        ImageLoader.loadLocalImage(backdrop, R.mipmap.img_coin);
     }
 
     @Override
