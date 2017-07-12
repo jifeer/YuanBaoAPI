@@ -11,4 +11,6 @@ public interface WebViewPersenter {
     void showError();
 
     void showProgress(int visibility);
+
+    void reloadWeb();
 }

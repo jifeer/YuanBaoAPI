@@ -6,12 +6,15 @@ package cn.lw.yuanbaoapi.view;
 
 public interface WebView {
 
-    void loadWeb();
+    void loadSuccess();
 
     //加载网页出错
-    void showError();
+    void loadError();
 
     //进度条是否可见
     void showProgress(int visibility);
+
+    //重新加载网页
+    void reloadWeb();
 
 }

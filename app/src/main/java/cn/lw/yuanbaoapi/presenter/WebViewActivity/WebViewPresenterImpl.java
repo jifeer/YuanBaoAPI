@@ -14,16 +14,21 @@ public class WebViewPresenterImpl implements WebViewPersenter {
 
     @Override
     public void loadWeb() {
-        this.webView.loadWeb();
+        this.webView.loadSuccess();
     }
 
     @Override
     public void showError() {
-        webView.showError();
+        webView.loadError();
     }
 
     @Override
     public void showProgress(int visibility) {
         this.webView.showProgress(visibility);
+    }
+
+    @Override
+    public void reloadWeb() {
+        this.webView.reloadWeb();
     }
 }

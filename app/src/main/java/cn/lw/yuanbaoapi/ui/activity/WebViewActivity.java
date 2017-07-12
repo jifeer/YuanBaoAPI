@@ -7,6 +7,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
@@ -21,10 +23,11 @@ import cn.lw.yuanbaoapi.presenter.WebViewActivity.WebViewPersenter;
 import cn.lw.yuanbaoapi.presenter.WebViewActivity.WebViewPresenterImpl;
 import cn.lw.yuanbaoapi.utils.ImageLoader;
 
+import static cn.lw.yuanbaoapi.commons.Urls.RANDOM_IMG;
+import static cn.lw.yuanbaoapi.commons.Urls.YUANBAO_COINS_URL;
+
 public class WebViewActivity extends BaseActivity implements cn.lw.yuanbaoapi.view.WebView{
 
-    private static final String YUANBAO_COINS_URL = "https://www.yuanbao.com/coins";
-    private static final String WEBVIEW_LOGO = "https://ybh-static.oss-cn-hangzhou.aliyuncs.com/images/ybc_logo_201604281200.png";
 
     @BindView(R.id.backdrop) ImageView backdrop;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -67,6 +70,12 @@ public class WebViewActivity extends BaseActivity implements cn.lw.yuanbaoapi.vi
                 super.onPageFinished(view, url);
                 webViewPersenter.showProgress(View.GONE);
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                loadError();
+            }
         });
         webView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -89,10 +98,17 @@ public class WebViewActivity extends BaseActivity implements cn.lw.yuanbaoapi.vi
         });
         webView.setHorizontalScrollBarEnabled(true);
         initCollaspingToolbar();
+        imgError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgress(View.VISIBLE);
+                reloadWeb();
+            }
+        });
     }
 
     private void initCollaspingToolbar() {
-        collapsingToolbar.setTitle(" ");
+        toolbar.setTitle(" ");
         appbar.setExpanded(true);
 
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -105,10 +121,10 @@ public class WebViewActivity extends BaseActivity implements cn.lw.yuanbaoapi.vi
                 }
 
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("元宝网");
+                    toolbar.setTitle("元宝网");
                     isShow = true;
                 } else if (isShow) {
-                    collapsingToolbar.setTitle(" ");
+                    toolbar.setTitle(" ");
                     isShow = false;
                 }
             }
@@ -116,35 +132,40 @@ public class WebViewActivity extends BaseActivity implements cn.lw.yuanbaoapi.vi
     }
 
     @Override
-    public void loadWeb() {
-        progressBar.setVisibility(View.GONE);
-        imgError.setVisibility(View.VISIBLE);
+    public void loadSuccess() {
+        showProgress(View.GONE);
+        imgError.setVisibility(View.GONE);
         webView.setVisibility(View.VISIBLE);
         webView.loadUrl(YUANBAO_COINS_URL);
-        ImageLoader.loadImage(backdrop, WEBVIEW_LOGO);
+        ImageLoader.loadImage(backdrop, RANDOM_IMG);
     }
 
     @Override
-    public void showError() {
-        progressBar.setVisibility(View.GONE);
+    public void loadError() {
+        showProgress(View.GONE);
         imgError.setVisibility(View.VISIBLE);
-        webView.setVisibility(View.VISIBLE);
+        webView.setVisibility(View.GONE);
     }
 
     @Override
     public void onConnect(NetType netType) {
         super.onConnect(netType);
-        loadWeb();
+        loadSuccess();
     }
 
     @Override
     public void disConnect() {
         super.disConnect();
-        showError();
+        loadError();
     }
 
     @Override
     public void showProgress(int visibility) {
         progressBar.setVisibility(visibility);
+    }
+
+    @Override
+    public void reloadWeb() {
+        webView.reload();
     }
 }
