@@ -83,12 +83,12 @@ public class MainActivity extends BaseActivity implements MainView,NavigationVie
 
     @Override
     public void switchToTodayInfo() {
-        viewpager.setCurrentItem(1);
+        viewpager.setCurrentItem(0);
     }
 
     @Override
     public void switchToHistoryInfo() {
-        viewpager.setCurrentItem(2);
+        viewpager.setCurrentItem(1);
     }
 
     @Override
@@ -105,24 +105,23 @@ public class MainActivity extends BaseActivity implements MainView,NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.webView:
-                setMenuSelected(0);
-                item.setCheckable(true);
-                Intent intent = new Intent(this, WebViewActivity.class);
-                startActivity(intent);
-                break;
             case R.id.today:
                 item.setChecked(true);
-                presenter.switchView(1);
+                presenter.switchView(0);
                 break;
             case R.id.history:
                 item.setChecked(true);
-                presenter.switchView(2);
+                presenter.switchView(1);
                 break;
             case R.id.weather:
                 item.setChecked(true);
                 break;
-
+            case R.id.webView:
+                setMenuSelected(3);
+                item.setCheckable(true);
+                Intent intent = new Intent(this, WebViewActivity.class);
+                startActivity(intent);
+                break;
         }
         activityMain.closeDrawer(GravityCompat.START);
         return false;

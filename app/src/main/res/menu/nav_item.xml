@@ -3,11 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/webView"
-            android:checkable="true"
-            android:icon="@drawable/ic_action_web"
-            android:title="元宝官网" />
+
 
         <item
             android:id="@+id/today"
@@ -15,7 +11,7 @@
             android:checked="true"
             android:icon="@drawable/ic_action_today"
             android:title="今日行情" />
-        s
+
         <item
             android:id="@+id/history"
             android:checkable="true"
@@ -27,6 +23,12 @@
             android:checkable="true"
             android:icon="@drawable/ic_action_weather"
             android:title="本地天气" />
+
+        <item
+            android:id="@+id/webView"
+            android:checkable="true"
+            android:icon="@drawable/ic_action_web"
+            android:title="元宝官网" />
 
     </group>
 </menu>
