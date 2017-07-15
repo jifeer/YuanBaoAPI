@@ -76,6 +76,7 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
 
     @Override
     public void showCoins(List<Coin> coins) {
+        imgEmpty.setVisibility(View.GONE);
         adapter.initData(coins);
     }
 
@@ -86,7 +87,6 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
 
     @Override
     public void showEmpty() {
-        recycler.setVisibility(View.GONE);
         imgEmpty.setVisibility(View.VISIBLE);
     }
 
