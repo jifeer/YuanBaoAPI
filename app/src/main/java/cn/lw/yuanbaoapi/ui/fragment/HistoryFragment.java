@@ -2,7 +2,7 @@ package cn.lw.yuanbaoapi.ui.fragment;
 
 
 import android.support.v4.app.Fragment;
-import android.view.ViewGroup;
+import android.view.View;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +14,11 @@ public class HistoryFragment extends BaseFragemnt {
         // Required empty public constructor
     }
 
+    @Override
+    public View initContentView() {
+        return null;
+    }
+
 
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -22,9 +27,5 @@ public class HistoryFragment extends BaseFragemnt {
 //        return inflater.inflate(R.layout.fragment_history, container, false);
 //    }
 
-    @Override
-    public void addContentView(ViewGroup view) {
-
-    }
 
 }

@@ -30,11 +30,15 @@ public abstract class BaseFragemnt extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_base_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        addContentView(((ViewGroup) view));
+        View contentView = initContentView();
+        //子View非空判断
+        if (null != contentView) {
+            content.addView(contentView);
+        }
         return view;
     }
 
-    public abstract void addContentView(ViewGroup view);
+    public abstract View initContentView();
 
 
     public void setTitle(String title) {
