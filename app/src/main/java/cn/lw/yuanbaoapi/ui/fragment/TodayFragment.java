@@ -1,7 +1,7 @@
 package cn.lw.yuanbaoapi.ui.fragment;
 
 
-import android.os.Bundle;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +14,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import cn.lw.yuanbaoapi.App;
 import cn.lw.yuanbaoapi.R;
 import cn.lw.yuanbaoapi.api.YuanbaoApi;
 import cn.lw.yuanbaoapi.api.YuanbaoInterface;
@@ -30,31 +28,24 @@ import cn.lw.yuanbaoapi.view.CoinsTodayView;
  * A simple {@link Fragment} subclass.
  */
 public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
-
-
-    @BindView(R.id.recycler)
     RecyclerView recycler;
-    @BindView(R.id.swipe)
     SwipeRefreshLayout swipe;
-    Unbinder unbinder;
-    @BindView(R.id.img_empty)
     ImageView imgEmpty;
-    private String title;
     private CoinsTodayPresenter presenter;
     private PriOfCoinsAdapter adapter;
     private List<Coin> list;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_today, container, false);
-        unbinder = ButterKnife.bind(this, view);
+    public void addContentView(ViewGroup viewG) {
+        LayoutInflater inflater = (LayoutInflater) App.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.fragment_today, null);
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        imgEmpty = (ImageView) view.findViewById(R.id.img_empty);
+        viewG.addView(view);
         initView();
         YuanbaoInterface yuanbaoInterface = YuanbaoApi.getRetrofitClient().create(YuanbaoInterface.class);
         presenter = new CoinsTodayPresenterImpl(yuanbaoInterface, this);
-        presenter.loadCoins();
-
-        return view;
     }
 
     @Override
@@ -77,11 +68,6 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @Override
     public void showProgress() {
@@ -103,4 +89,6 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
         recycler.setVisibility(View.GONE);
         imgEmpty.setVisibility(View.VISIBLE);
     }
+
+
 }
