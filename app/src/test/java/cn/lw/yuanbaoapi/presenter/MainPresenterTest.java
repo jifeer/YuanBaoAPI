@@ -1,5 +1,8 @@
 package cn.lw.yuanbaoapi.presenter;
 
+import android.app.Activity;
+import android.support.v4.view.ViewPager;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -10,16 +13,19 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
 import cn.lw.yuanbaoapi.BuildConfig;
 import cn.lw.yuanbaoapi.MyRobolectricTestRunner;
+import cn.lw.yuanbaoapi.R;
 import cn.lw.yuanbaoapi.RxAsynRules;
 import cn.lw.yuanbaoapi.api.YuanbaoInterface;
 import cn.lw.yuanbaoapi.commons.Constant;
 import cn.lw.yuanbaoapi.entity.Coin;
 import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenter;
 import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenterImpl;
+import cn.lw.yuanbaoapi.ui.activity.MainActivity;
 import cn.lw.yuanbaoapi.view.CoinsTodayView;
 import io.reactivex.Observable;
 
@@ -30,6 +36,8 @@ import io.reactivex.Observable;
 @Config(constants = BuildConfig.class, sdk = 21)
 public class MainPresenterTest {
     public CoinsTodayPresenter coinsTodayPresenter;
+    public Activity activity;
+    public ViewPager viewPager;
     @Rule
     public RxAsynRules rules = new RxAsynRules();
     @Mock
@@ -46,6 +54,8 @@ public class MainPresenterTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
+        activity = Robolectric.setupActivity(MainActivity.class);
+        viewPager = (ViewPager) activity.findViewById(R.id.viewpager);
         coinsTodayPresenter = new CoinsTodayPresenterImpl(yuanbaoInterface,coinsTodayView);
     }
 
