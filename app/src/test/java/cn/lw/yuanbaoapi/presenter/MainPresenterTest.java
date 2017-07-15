@@ -69,5 +69,16 @@ public class MainPresenterTest {
         Mockito.verify(coinsTodayView).showProgress();
         Mockito.verify(coinsTodayView).disMissProgress();
     }
+
+    /**
+     * 测试没有数据的时候方法调用是否正常
+     */
+    @Test
+    public void testLoadEmpty(){
+        Mockito.when(yuanbaoInterface.getCoin(Mockito.anyString())).thenReturn(Observable.<Coin>empty());
+        coinsTodayPresenter.loadCoins();
+        Mockito.verify(coinsTodayView).showEmpty();
+    }
+
 }
 

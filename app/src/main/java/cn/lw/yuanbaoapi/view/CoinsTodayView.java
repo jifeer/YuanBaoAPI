@@ -16,5 +16,5 @@ public interface CoinsTodayView {
 
     void disMissProgress();
 
-    void showError();
+    void showEmpty();
 }

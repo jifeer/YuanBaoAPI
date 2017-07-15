@@ -16,8 +16,8 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <include
-        android:id="@+id/loading"
+        android:id="@+id/img_empty"
         android:visibility="gone"
-        layout="@layout/loading_layout"/>
+        layout="@layout/layout_empty"/>
 
 </FrameLayout>

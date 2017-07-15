@@ -3,14 +3,13 @@ package cn.lw.yuanbaoapi.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +37,8 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipe;
     Unbinder unbinder;
-    @BindView(R.id.loding_pb)
-    ContentLoadingProgressBar lodingPb;
-    @BindView(R.id.loading)
-    FrameLayout loading;
+    @BindView(R.id.img_empty)
+    ImageView imgEmpty;
     private String title;
     private CoinsTodayPresenter presenter;
     private PriOfCoinsAdapter adapter;
@@ -52,10 +49,11 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
         unbinder = ButterKnife.bind(this, view);
+        initView();
         YuanbaoInterface yuanbaoInterface = YuanbaoApi.getRetrofitClient().create(YuanbaoInterface.class);
         presenter = new CoinsTodayPresenterImpl(yuanbaoInterface, this);
         presenter.loadCoins();
-        initView();
+
         return view;
     }
 
@@ -65,13 +63,12 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
         presenter.loadCoins();
     }
 
-    private void initView(){
+    private void initView() {
         list = new ArrayList<>();
         adapter = new PriOfCoinsAdapter(list);
         recycler.setAdapter(adapter);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -102,7 +99,8 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     }
 
     @Override
-    public void showError() {
-
+    public void showEmpty() {
+        recycler.setVisibility(View.GONE);
+        imgEmpty.setVisibility(View.VISIBLE);
     }
 }

@@ -64,7 +64,11 @@ public class CoinsTodayPresenterImpl implements CoinsTodayPresenter {
                     public void onComplete() {
                         LogUtils.LogD(TAG, "onComplete: ");
                         coinsTodayView.disMissProgress();
-                        coinsTodayView.showCoins(list);
+                        if (list == null || list.size() == 0) {
+                            coinsTodayView.showEmpty();
+                        }else{
+                            coinsTodayView.showCoins(list);
+                        }
                     }
                 });
     }
