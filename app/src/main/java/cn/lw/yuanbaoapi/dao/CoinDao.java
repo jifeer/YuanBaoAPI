@@ -36,7 +36,7 @@ public class CoinDao extends BaseDao{
      * 插入一条比特币数据
      * @param coin
      */
-    public void insertCoin(Coin coin){
+    public void insertCoin(Coin coin, boolean isListen){
         initDb(context);
         try {
             ContentValues cv = new ContentValues();
@@ -55,6 +55,11 @@ public class CoinDao extends BaseDao{
             cv.put(DBHelper.MARKETS, coin.getMarkets());
             cv.put(DBHelper.DATE, coin.getUpdateTime());
             db.insert(DBHelper.TABLE_NAME, null, cv);
+            if (dataChangeListeners != null && isListen){
+                for (DataChangeListener listener:dataChangeListeners) {
+                    listener.dataChange();
+                }
+            }
         }catch (Exception e){
             LogUtils.LogE(TAG, e.getMessage());
         }finally {
@@ -67,11 +72,16 @@ public class CoinDao extends BaseDao{
      * @param coin
      * @return
      */
-    public int deleteCoin(Coin coin){
+    public int deleteCoin(Coin coin, boolean isListen){
         int index = -1;
         initDb(context);
         try {
             index = db.delete(DBHelper.TABLE_NAME, DBHelper.DATE + "=?", new String[]{coin.getUpdateTime()});
+            if ( dataChangeListeners != null && isListen){
+                for (DataChangeListener listener: dataChangeListeners) {
+                    listener.dataChange();
+                }
+            }
         }catch (Exception e){
             LogUtils.LogE(TAG, e.getMessage());
             index = -1;
