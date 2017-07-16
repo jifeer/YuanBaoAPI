@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Intent;
 
+import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 
 import cn.lw.yuanbaoapi.receiver.DownloadAlarmReceiver;
@@ -20,7 +21,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        initLeanCanary();
+        initDebug();
         initDownloadAlarmManager();
     }
 
@@ -33,9 +34,8 @@ public class App extends Application {
         manager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), DOWN_INTERNAL, pendingIntent);
     }
 
-
     //内存泄漏监控初始化
-    private void initLeanCanary(){
+    private void initDebug(){
         if (BuildConfig.DEBUG){
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This process is dedicated to LeakCanary for heap analysis.
@@ -43,6 +43,7 @@ public class App extends Application {
                 return;
             }
             LeakCanary.install(this);
+            Stetho.initializeWithDefaults(this);
         }
     }
 
