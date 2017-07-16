@@ -7,6 +7,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.lw.yuanbaoapi.App;
 import cn.lw.yuanbaoapi.dao.listener.DataChangeListener;
 import cn.lw.yuanbaoapi.entity.Coin;
 import cn.lw.yuanbaoapi.utils.LogUtils;
@@ -21,9 +22,9 @@ public class CoinDao extends BaseDao{
     private Context context;
     private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
-    public static CoinDao getInstance(Context context){
+    public static CoinDao getInstance(){
         if (coinDao == null){
-            coinDao = new CoinDao(context);
+            coinDao = new CoinDao(App.getApplication());
         }
         return coinDao;
     }
