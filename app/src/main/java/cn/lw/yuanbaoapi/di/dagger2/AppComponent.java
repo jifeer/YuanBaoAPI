@@ -2,8 +2,6 @@ package cn.lw.yuanbaoapi.di.dagger2;
 
 import javax.inject.Singleton;
 
-import cn.lw.yuanbaoapi.demo.LoginActivity;
-import cn.lw.yuanbaoapi.demo.MockiToLoginPresenter;
 import dagger.Component;
 
 /**
@@ -14,8 +12,4 @@ import dagger.Component;
 @Component(modules = AppModule.class)
 public interface AppComponent {
 
-     MockiToLoginPresenter getLoginPresenter();
-
-     //初始化的Context位置必须指明,否则MockiToLoginPresenter找不到初始化位置,报NullPointerException错误
-     void inject(LoginActivity context);
 }

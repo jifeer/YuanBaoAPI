@@ -20,15 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".demo.MainActivity" />
-        <activity android:name=".demo.SecondActivity" />
-        <activity android:name=".demo.LoginActivity" />
         <activity android:name=".ui.activity.WebViewActivity" />
 
         <!-- 网络状态 -->
-        <receiver android:name=".receiver.NetworkChangeReceiver" />
+        <receiver android:name=".receiver.NetworkChangeReceiver"/>
+        <!-- 定时下载任务-->
+        <receiver android:name=".receiver.DownloadAlarmReceiver"/>
+        <!-- 数据下载-->
+        <service android:name=".service.DownloadCoinService"/>
 
-        <activity android:name=".ui.activity.BaseActivity"></activity>
     </application>
 
 </manifest>
