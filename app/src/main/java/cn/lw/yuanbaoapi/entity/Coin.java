@@ -49,6 +49,7 @@ public class Coin {
     private String Website;
     @SerializedName("Markets")
     private String Markets;
+    private String updateTime;
 
     public Coin() {
     }
@@ -129,7 +130,7 @@ public class Coin {
         return available_supply;
     }
 
-    public void setAvailable_supply(int available_supply) {
+    public void setAvailable_supply(long available_supply) {
         this.available_supply = available_supply;
     }
 
@@ -176,5 +177,13 @@ public class Coin {
     @Override
     public String toString() {
         return getName();
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 }
