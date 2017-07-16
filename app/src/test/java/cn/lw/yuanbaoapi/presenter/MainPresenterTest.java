@@ -3,6 +3,7 @@ package cn.lw.yuanbaoapi.presenter;
 import android.app.Activity;
 import android.support.v4.view.ViewPager;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -15,6 +16,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
+
+import java.util.List;
 
 import cn.lw.yuanbaoapi.BuildConfig;
 import cn.lw.yuanbaoapi.MyRobolectricTestRunner;
@@ -64,10 +67,21 @@ public class MainPresenterTest {
      */
     @Test
     public void loadSuccess(){
-        Mockito.when(yuanbaoInterface.getCoin(Constant.COIN_DODGE)).thenReturn(Observable.just(new Coin()));
+        Coin coin = new Coin();
+        coin.setName("test");
+        Mockito.when(yuanbaoInterface.getCoin(Constant.COIN_BTC)).thenReturn(Observable.just(coin));
         coinsTodayPresenter.loadCoins();
+
+        ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
+
         Mockito.verify(coinsTodayView).showProgress();
+        Mockito.verify(coinsTodayView).showCoins(captor.capture());
         Mockito.verify(coinsTodayView).disMissProgress();
+
+        List<Coin> coins = captor.getValue();
+        Coin coinCaptor = coins.get(coins.size() - 1);
+        Assert.assertEquals(coins.size(), 1);
+        Assert.assertEquals(coinCaptor.getName(), "test");
     }
 
     /**

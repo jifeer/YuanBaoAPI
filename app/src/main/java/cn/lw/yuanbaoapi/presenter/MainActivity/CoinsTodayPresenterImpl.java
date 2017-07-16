@@ -6,15 +6,12 @@ import java.util.List;
 import cn.lw.yuanbaoapi.api.YuanbaoInterface;
 import cn.lw.yuanbaoapi.commons.Constant;
 import cn.lw.yuanbaoapi.entity.Coin;
-import cn.lw.yuanbaoapi.utils.LogUtils;
 import cn.lw.yuanbaoapi.view.CoinsTodayView;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -34,39 +31,36 @@ public class CoinsTodayPresenterImpl implements CoinsTodayPresenter {
     public void loadCoins() {
         final List<Coin> list = new ArrayList<>();
         coinsTodayView.showProgress();
-        Observable.just(Constant.COIN_BTC, Constant.COIN_DODGE, Constant.COIN_MONKEY, Constant.COIN_MRYC)
-                .flatMap(new Function<String, ObservableSource<Coin>>() {
+        yuanbaoInterface.getCoin(Constant.COIN_BTC).subscribeOn(Schedulers.newThread()).observeOn(Schedulers.io())
+                .doOnNext(new Consumer<Coin>() {
                     @Override
-                    public ObservableSource<Coin> apply(@NonNull String s) throws Exception {
-                        return yuanbaoInterface.getCoin(s);
+                    public void accept(@NonNull Coin coin) throws Exception {
+                        list.add(coin);
                     }
                 })
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Coin>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        LogUtils.LogD(TAG, "onSubscribe: " + d.isDisposed());
+
                     }
 
                     @Override
                     public void onNext(@NonNull Coin coin) {
-                        LogUtils.LogD(TAG, "onNext: " + coin.toString());
-                        list.add(coin);
+
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        LogUtils.LogD(TAG, "onError: " + e.getMessage());
-                        coinsTodayView.disMissProgress();
+                        coinsTodayView.showEmpty();
                     }
 
                     @Override
                     public void onComplete() {
-                        LogUtils.LogD(TAG, "onComplete: ");
                         coinsTodayView.disMissProgress();
                         if (list == null || list.size() == 0) {
                             coinsTodayView.showEmpty();
-                        }else{
+                        } else {
                             coinsTodayView.showCoins(list);
                         }
                     }

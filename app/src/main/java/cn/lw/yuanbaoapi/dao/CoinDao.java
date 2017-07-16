@@ -94,7 +94,7 @@ public class CoinDao extends BaseDao{
     /**
      * 遍历数据
      */
-    public List<Coin> query(int limit, boolean isListen){
+    public List<Coin> query(int limit){
         initDb(context);
         List <Coin> list = new ArrayList<>();
         try{
@@ -123,6 +123,38 @@ public class CoinDao extends BaseDao{
         }
         closeDb();
         return list;
+    }
+
+    /**
+     * 选择最近的一个Coin数据
+     * @return
+     */
+    public Coin queryTheLastCoin(){
+        initDb(context);
+        try {
+            Cursor cursor = db.rawQuery("select last_insert_rowid()", null);
+            cursor.moveToFirst();
+            Coin coin = new Coin();
+            coin.setName(cursor.getString(cursor.getColumnIndex(DBHelper.NAME)));
+            coin.setLogo(cursor.getString(cursor.getColumnIndex(DBHelper.LOGO)));
+            coin.setPrice(cursor.getString(cursor.getColumnIndex(DBHelper.PRICE)));
+            coin.setMax(cursor.getString(cursor.getColumnIndex(DBHelper.MAX)));
+            coin.setMin(cursor.getString(cursor.getColumnIndex(DBHelper.MIN)));
+            coin.setBuy(cursor.getString(cursor.getColumnIndex(DBHelper.BUY)));
+            coin.setSale(cursor.getString(cursor.getColumnIndex(DBHelper.SALE)));
+            coin.setAvailable_supply(cursor.getLong(cursor.getColumnIndex(DBHelper.AVAILABLE_SUPPLY)));
+            coin.setMarket_cap(cursor.getDouble(cursor.getColumnIndex(DBHelper.MARKET_CAP)));
+            coin.setVolume_24h(cursor.getString(cursor.getColumnIndex(DBHelper.VOLUME_24H)));
+            coin.setChange_24h(cursor.getDouble(cursor.getColumnIndex(DBHelper.CHANGE_24H)));
+            coin.setWebsite(cursor.getString(cursor.getColumnIndex(DBHelper.WEBSITE)));
+            coin.setMarkets(cursor.getString(cursor.getColumnIndex(DBHelper.MARKETS)));
+            coin.setUpdateTime(cursor.getString(cursor.getColumnIndex(DBHelper.DATE)));
+            return coin;
+        }catch (Exception e){
+            LogUtils.LogE(TAG, e.getMessage());
+        }
+        closeDb();
+        return null;
     }
 
     /**
