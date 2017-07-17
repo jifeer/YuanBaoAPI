@@ -38,6 +38,7 @@ public class DownloadCoinService extends IntentService {
                 .doOnNext(new Consumer<Coin>() {
                     @Override
                     public void accept(@NonNull Coin coin) throws Exception {
+                        coin.setUpdateTime(System.currentTimeMillis() + "");
                         CoinDao coinDao = CoinDao.getInstance();
                         coinDao.insertCoin(coin, false);
                     }
