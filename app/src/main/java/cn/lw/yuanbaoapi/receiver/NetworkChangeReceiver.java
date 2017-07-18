@@ -74,8 +74,8 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     }
 
     public interface NetChangeObserver {
-        public void onConnect(NetType netType);
+        void onConnect(NetType netType);
 
-        public void disConnect();
+        void disConnect();
     }
 }
