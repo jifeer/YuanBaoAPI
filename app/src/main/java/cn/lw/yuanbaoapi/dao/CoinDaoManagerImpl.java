@@ -38,6 +38,10 @@ public class CoinDaoManagerImpl implements IRxDBManager {
         return coinDaoManager;
     }
 
+    /**
+     * 遍历所有的Coin数据
+     * @return
+     */
     @Override
     public Observable<List<Coin>> queryAllCoins() {
         return Observable.create(new ObservableOnSubscribe<List<Coin>>() {
@@ -49,6 +53,12 @@ public class CoinDaoManagerImpl implements IRxDBManager {
         });
     }
 
+    /**
+     * 分页遍历数据
+     * @param limit
+     * @param offset
+     * @return
+     */
     @Override
     public Observable<List<Coin>> queryPageCoins(final int limit, final int offset) {
         return Observable.create(new ObservableOnSubscribe<List<Coin>>() {
@@ -90,6 +100,12 @@ public class CoinDaoManagerImpl implements IRxDBManager {
         }).subscribeOn(Schedulers.io());
     }
 
+    /**
+     * 插入Coin
+     * @param coin
+     * @param isListen
+     * @return
+     */
     @Override
     public Observable<Boolean> insertCoin(final Coin coin, boolean isListen) {
         return Observable.create(new ObservableOnSubscribe<Boolean>() {
@@ -130,6 +146,10 @@ public class CoinDaoManagerImpl implements IRxDBManager {
         }).subscribeOn(Schedulers.io());
     }
 
+    /**
+     * 获取最新的一条数据
+     * @return
+     */
     @Override
     public Observable<Coin> queryTheLastCoin() {
         return Observable.create(new ObservableOnSubscribe<Coin>() {
