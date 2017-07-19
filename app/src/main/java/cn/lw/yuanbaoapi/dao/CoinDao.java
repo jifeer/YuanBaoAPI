@@ -1,5 +1,6 @@
 package cn.lw.yuanbaoapi.dao;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,28 +17,37 @@ import cn.lw.yuanbaoapi.utils.LogUtils;
  * Created by Administrator on 2017/7/15.
  */
 
-public class CoinDao extends BaseDao{
+public class CoinDao extends BaseDao {
     private static final String TAG = "CoinDao";
     private static CoinDao coinDao;
     private Context context;
     private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
-    public static CoinDao getInstance(){
-        if (coinDao == null){
+    public static CoinDao getInstance() {
+        if (coinDao == null) {
             coinDao = new CoinDao(App.getApplication());
         }
         return coinDao;
     }
 
-    private CoinDao(Context context){
+    //这个方法是保留给单元测试用的
+    public static CoinDao getInstance(Application application) {
+        if (coinDao == null) {
+            coinDao = new CoinDao(application);
+        }
+        return coinDao;
+    }
+
+    private CoinDao(Context context) {
         this.context = context;
     }
 
     /**
      * 插入一条比特币数据
+     *
      * @param coin
      */
-    public void insertCoin(Coin coin, boolean isListen){
+    public synchronized long insertCoin(Coin coin, boolean isListen) {
         initDb(context);
         try {
             ContentValues cv = new ContentValues();
@@ -55,39 +65,40 @@ public class CoinDao extends BaseDao{
             cv.put(DBHelper.WEBSITE, coin.getWebsite());
             cv.put(DBHelper.MARKETS, coin.getMarkets());
             cv.put(DBHelper.DATE, coin.getUpdateTime());
-            db.insert(DBHelper.TABLE_NAME, null, cv);
-            if (dataChangeListeners != null && isListen){
-                for (DataChangeListener listener:dataChangeListeners) {
+            long index = db.insert(DBHelper.TABLE_NAME, null, cv);
+            if (dataChangeListeners != null && isListen) {
+                for (DataChangeListener listener : dataChangeListeners) {
                     listener.dataChange();
                 }
             }
-        }catch (Exception e){
+            return index;
+        } catch (Exception e) {
             LogUtils.LogE(TAG, e.getMessage());
-        }finally {
-            closeDb();
         }
+        closeDb();
+        return -1;
     }
 
     /**
      * 根据更新时间删除数据
+     *
      * @param coin
      * @return
      */
-    public int deleteCoin(Coin coin, boolean isListen){
+    public synchronized int deleteCoin(Coin coin, boolean isListen) {
         int index = -1;
         initDb(context);
         try {
             index = db.delete(DBHelper.TABLE_NAME, DBHelper.DATE + "=?", new String[]{coin.getUpdateTime()});
-            if ( dataChangeListeners != null && isListen){
-                for (DataChangeListener listener: dataChangeListeners) {
+            if (dataChangeListeners != null && isListen) {
+                for (DataChangeListener listener : dataChangeListeners) {
                     listener.dataChange();
                 }
             }
-        }catch (Exception e){
+            closeDb();
+        } catch (Exception e) {
             LogUtils.LogE(TAG, e.getMessage());
             index = -1;
-        }finally {
-            closeDb();
         }
         return index;
     }
@@ -95,12 +106,12 @@ public class CoinDao extends BaseDao{
     /**
      * 遍历数据
      */
-    public List<Coin> query(int limit){
+    public synchronized List<Coin> query(int offset) {
         initDb(context);
-        List <Coin> list = new ArrayList<>();
-        try{
-            Cursor cursor = db.rawQuery("select * from " + DBHelper.TABLE_NAME + " limit=?" + limit + " offset 5", new String[]{limit + ""});
-            while (cursor.moveToNext()){
+        List<Coin> list = new ArrayList<>();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_NAME + " LIMIT 5" + " OFFSET ?", new String[]{offset + ""});
+            while (cursor.moveToNext()) {
                 Coin coin = new Coin();
                 coin.setName(cursor.getString(cursor.getColumnIndex(DBHelper.NAME)));
                 coin.setLogo(cursor.getString(cursor.getColumnIndex(DBHelper.LOGO)));
@@ -118,22 +129,24 @@ public class CoinDao extends BaseDao{
                 coin.setUpdateTime(cursor.getString(cursor.getColumnIndex(DBHelper.DATE)));
                 list.add(coin);
             }
+            cursor.close();
+            closeDb();
             return list;
-        }catch (Exception e){
+        } catch (Exception e) {
             LogUtils.LogE(TAG, e.getMessage());
         }
-        closeDb();
         return list;
     }
 
     /**
      * 选择最近的一个Coin数据
+     *
      * @return
      */
-    public Coin queryTheLastCoin(){
+    public Coin queryTheLastCoin() {
         initDb(context);
         try {
-            Cursor cursor = db.rawQuery("select last_insert_rowid()", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_NAME + " ORDER BY id DESC LIMIT 1", null);
             cursor.moveToFirst();
             Coin coin = new Coin();
             coin.setName(cursor.getString(cursor.getColumnIndex(DBHelper.NAME)));
@@ -150,27 +163,30 @@ public class CoinDao extends BaseDao{
             coin.setWebsite(cursor.getString(cursor.getColumnIndex(DBHelper.WEBSITE)));
             coin.setMarkets(cursor.getString(cursor.getColumnIndex(DBHelper.MARKETS)));
             coin.setUpdateTime(cursor.getString(cursor.getColumnIndex(DBHelper.DATE)));
+            cursor.close();
+            closeDb();
             return coin;
-        }catch (Exception e){
+        } catch (Exception e) {
             LogUtils.LogE(TAG, e.getMessage());
         }
-        closeDb();
         return null;
     }
 
     /**
      * 注册数据库数据变化监听
+     *
      * @param listener
      */
-    public void registerDataChangeListener(DataChangeListener listener){
+    public void registerDataChangeListener(DataChangeListener listener) {
         dataChangeListeners.add(listener);
     }
 
     /**
      * 移除数据库状态监听
+     *
      * @param dataChangeListener
      */
-    public void unRegisterDataChangeListener(DataChangeListener dataChangeListener){
+    public void unRegisterDataChangeListener(DataChangeListener dataChangeListener) {
         dataChangeListeners.remove(dataChangeListener);
     }
 
