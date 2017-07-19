@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 
 import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
@@ -34,6 +35,10 @@ public class App extends Application {
         manager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), DOWN_INTERNAL, pendingIntent);
     }
 
+    public static boolean isRoboUnitTest() {
+        return "robolectric".equals(Build.FINGERPRINT);
+    }
+
     //内存泄漏监控初始化
     private void initDebug(){
         if (BuildConfig.DEBUG){
@@ -43,7 +48,10 @@ public class App extends Application {
                 return;
             }
             LeakCanary.install(this);
-            Stetho.initializeWithDefaults(this);
+            //防止单元测试的时候发生
+            if(!isRoboUnitTest()) {
+                Stetho.initializeWithDefaults(this);
+            }
         }
     }
 
