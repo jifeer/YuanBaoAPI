@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import cn.lw.yuanbaoapi.view.CoinsTodayView;
 public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     RecyclerView recycler;
     SwipeRefreshLayout swipe;
+    ImageView imgEmpty;
     private CoinsTodayPresenter presenter;
     private PriOfCoinsAdapter adapter;
     private List<Coin> list;
@@ -39,6 +41,7 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
         View view = inflater.inflate(R.layout.fragment_today, null);
         recycler = (RecyclerView) view.findViewById(R.id.recycler);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        imgEmpty = (ImageView) view.findViewById(R.id.img_empty);
         initView();
 
         YuanbaoInterface yuanbaoInterface = YuanbaoApi.getRetrofitClient().create(YuanbaoInterface.class);
@@ -49,7 +52,7 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     @Override
     public void onResume() {
         super.onResume();
-        presenter.loadCoins();
+        presenter.loadCoins(CoinsTodayPresenter.TYPE_REFRESH);
     }
 
     private void initView() {
@@ -61,7 +64,7 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.loadCoins();
+                presenter.loadCoins(CoinsTodayPresenter.TYPE_REFRESH);
             }
         });
     }
@@ -73,10 +76,11 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     }
 
     @Override
-    public void showCoins(List<Coin> coins) {
-        imgEmpty.setVisibility(View.GONE);
-        recycler.setVisibility(View.VISIBLE);
-        adapter.initData(coins);
+    public void showCoins(int type, List<Coin> coins) {
+        adapter.initData(type, coins);
+        if (this.list.size() == 0){
+            showEmpty();
+        }
     }
 
     @Override

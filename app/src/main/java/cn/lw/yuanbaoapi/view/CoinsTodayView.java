@@ -12,7 +12,7 @@ public interface CoinsTodayView {
 
     void showProgress();
 
-    void showCoins(List<Coin> list);
+    void showCoins(int type, List<Coin> list);
 
     void disMissProgress();
 

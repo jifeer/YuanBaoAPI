@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,8 +17,6 @@ import cn.lw.yuanbaoapi.R;
  * Created by lw on 2017/6/28.
  */
 public abstract class BaseFragemnt extends Fragment {
-    @BindView(R.id.img_empty)
-    ImageView imgEmpty;
     @BindView(R.id.content)
     FrameLayout content;
     Unbinder unbinder;

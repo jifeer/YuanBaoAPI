@@ -12,6 +12,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lw.yuanbaoapi.R;
 import cn.lw.yuanbaoapi.entity.Coin;
+import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenter;
+import cn.lw.yuanbaoapi.utils.DateFormatUtils;
 import cn.lw.yuanbaoapi.utils.DecimalUtils;
 import cn.lw.yuanbaoapi.utils.ImageLoader;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,6 +46,7 @@ public class PriOfCoinsAdapter extends RecyclerView.Adapter<PriOfCoinsAdapter.Co
         holder.tvIn24h.setText("24H:" + DecimalUtils.getScale(2, coin.getChange_24h() * 100) + "%");
         holder.tvUpdateTime.setText("2016/3/3");
         holder.tvSoldOut.setText("卖出价:" + coin.getSale());
+        holder.tvUpdateTime.setText(DateFormatUtils.getDate(Long.valueOf(coin.getUpdateTime())));
     }
 
     @Override
@@ -51,8 +54,10 @@ public class PriOfCoinsAdapter extends RecyclerView.Adapter<PriOfCoinsAdapter.Co
         return list == null ? 0 : list.size();
     }
 
-    public void initData(List<Coin> list){
-        this.list.clear();
+    public void initData(int type, List<Coin> list){
+        if (type == CoinsTodayPresenter.TYPE_REFRESH){
+            this.list.clear();
+        }
         this.list.addAll(list);
         notifyDataSetChanged();
     }

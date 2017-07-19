@@ -6,5 +6,12 @@ package cn.lw.yuanbaoapi.presenter.MainActivity;
 
 public interface CoinsTodayPresenter {
 
-    void loadCoins();
+    int TYPE_REFRESH = 0;
+    int TYPE_MORE = 1;
+
+    /**
+     *
+     * @param type 加载类型
+     */
+    void loadCoins(int type);
 }
