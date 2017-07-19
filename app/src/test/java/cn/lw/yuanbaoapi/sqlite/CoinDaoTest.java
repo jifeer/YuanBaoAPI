@@ -53,6 +53,15 @@ public class CoinDaoTest {
         Assert.assertEquals(2, coins.size());
     }
 
+    @Test
+    public void testDelete(){
+        Coin coin = new Coin();
+        String time = System.currentTimeMillis() + "";
+        coin.setUpdateTime(time);
+        long insertIndex = coinDao.insertCoin(coin, false);
+        int deleteIndex = coinDao.deleteCoin(coin, false);
+        Assert.assertEquals(insertIndex, deleteIndex);
+    }
 //    @After
 //    public void closeDB(){
 //        coinDao.closeDb();
