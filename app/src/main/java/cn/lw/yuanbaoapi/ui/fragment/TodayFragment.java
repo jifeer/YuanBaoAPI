@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +19,14 @@ import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenter;
 import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenterImpl;
 import cn.lw.yuanbaoapi.ui.adapter.PriOfCoinsAdapter;
 import cn.lw.yuanbaoapi.view.CoinsTodayView;
+import cn.lw.yuanbaoapi.view.widget.EmptyRecyclerView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
-    RecyclerView recycler;
+    EmptyRecyclerView recycler;
     SwipeRefreshLayout swipe;
-    ImageView imgEmpty;
     private CoinsTodayPresenter presenter;
     private PriOfCoinsAdapter adapter;
     private List<Coin> list;
@@ -38,9 +37,8 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     public View initContentView() {
         LayoutInflater inflater = (LayoutInflater) App.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.fragment_today, null);
-        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+        recycler = (EmptyRecyclerView) view.findViewById(R.id.recycler);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
-        imgEmpty = (ImageView) view.findViewById(R.id.img_empty);
         initView();
 
         presenter = new CoinsTodayPresenterImpl(this);
@@ -56,6 +54,9 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     private void initView() {
         list = new ArrayList<>();
         adapter = new PriOfCoinsAdapter(list);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View emptyView = inflater.inflate(R.layout.layout_empty, null);
+        recycler.setEmptyView(emptyView);
         recycler.setAdapter(adapter);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -93,9 +94,6 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     @Override
     public void showCoins(int type, List<Coin> coins) {
         adapter.initData(type, coins);
-        if (this.list.size() == 0) {
-            showEmpty();
-        }
     }
 
     @Override
@@ -103,9 +101,4 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
         swipe.setRefreshing(false);
     }
 
-    @Override
-    public void showEmpty() {
-        imgEmpty.setVisibility(View.VISIBLE);
-        recycler.setVisibility(View.GONE);
-    }
 }
