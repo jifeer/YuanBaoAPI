@@ -31,7 +31,8 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     private CoinsTodayPresenter presenter;
     private PriOfCoinsAdapter adapter;
     private List<Coin> list;
-
+    private int pastVisibleItems, visibleItemCount, totalItemCount;
+    private boolean isLoading = false;
 
     @Override
     public View initContentView() {
@@ -64,6 +65,23 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
                 presenter.loadCoins(CoinsTodayPresenter.TYPE_REFRESH);
             }
         });
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    visibleItemCount = recyclerView.getLayoutManager().getChildCount();
+                    totalItemCount = recyclerView.getLayoutManager().getItemCount();
+                    pastVisibleItems = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+
+                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                        presenter.loadCoins(CoinsTodayPresenter.TYPE_MORE);
+                        isLoading = false;
+                    } else {
+                        isLoading = true;
+                    }
+                }
+            }
+        });
     }
 
 
@@ -75,7 +93,7 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
     @Override
     public void showCoins(int type, List<Coin> coins) {
         adapter.initData(type, coins);
-        if (this.list.size() == 0){
+        if (this.list.size() == 0) {
             showEmpty();
         }
     }

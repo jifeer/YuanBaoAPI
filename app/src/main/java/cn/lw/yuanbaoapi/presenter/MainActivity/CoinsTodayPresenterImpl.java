@@ -25,7 +25,8 @@ public class CoinsTodayPresenterImpl implements CoinsTodayPresenter {
         if (type == CoinsTodayPresenter.TYPE_REFRESH){
             page = 0;
         }else{
-            page ++;
+            //一页七个元素
+            page = page + 7;
         }
         list.addAll(CoinDao.getInstance().query(page));
         coinsTodayView.disMissProgress();
