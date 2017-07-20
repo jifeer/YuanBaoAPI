@@ -110,7 +110,7 @@ public class CoinDao extends BaseDao {
         initDb(context);
         List<Coin> list = new ArrayList<>();
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_NAME + " LIMIT 5" + " OFFSET ?", new String[]{offset + ""});
+            Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_NAME + " ORDER BY id DESC LIMIT 5" + " OFFSET ?", new String[]{offset + ""});
             while (cursor.moveToNext()) {
                 Coin coin = new Coin();
                 coin.setName(cursor.getString(cursor.getColumnIndex(DBHelper.NAME)));
