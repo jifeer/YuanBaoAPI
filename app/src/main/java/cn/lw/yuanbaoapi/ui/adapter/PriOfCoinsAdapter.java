@@ -44,7 +44,6 @@ public class PriOfCoinsAdapter extends RecyclerView.Adapter<PriOfCoinsAdapter.Co
         holder.tvCurrentPri.setText("Pri:" + coin.getPrice());
         //保留小数点后两位数字
         holder.tvIn24h.setText("24H:" + DecimalUtils.getScale(2, coin.getChange_24h() * 100) + "%");
-        holder.tvUpdateTime.setText("2016/3/3");
         holder.tvSoldOut.setText("卖出价:" + coin.getSale());
         holder.tvUpdateTime.setText(DateFormatUtils.getDate(Long.valueOf(coin.getUpdateTime())));
     }

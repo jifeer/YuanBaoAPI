@@ -15,8 +15,6 @@ import java.util.List;
 
 import cn.lw.yuanbaoapi.App;
 import cn.lw.yuanbaoapi.R;
-import cn.lw.yuanbaoapi.api.YuanbaoApi;
-import cn.lw.yuanbaoapi.api.YuanbaoInterface;
 import cn.lw.yuanbaoapi.entity.Coin;
 import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenter;
 import cn.lw.yuanbaoapi.presenter.MainActivity.CoinsTodayPresenterImpl;
@@ -44,8 +42,7 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
         imgEmpty = (ImageView) view.findViewById(R.id.img_empty);
         initView();
 
-        YuanbaoInterface yuanbaoInterface = YuanbaoApi.getRetrofitClient().create(YuanbaoInterface.class);
-        presenter = new CoinsTodayPresenterImpl(yuanbaoInterface, this);
+        presenter = new CoinsTodayPresenterImpl(this);
         return view;
     }
 

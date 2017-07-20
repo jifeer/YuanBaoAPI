@@ -48,7 +48,7 @@ public class App extends Application {
                 return;
             }
             LeakCanary.install(this);
-            //防止单元测试的时候发生
+            //防止单元测试的时候发生错误
             if(!isRoboUnitTest()) {
                 Stetho.initializeWithDefaults(this);
             }
