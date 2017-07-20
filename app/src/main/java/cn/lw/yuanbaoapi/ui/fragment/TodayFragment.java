@@ -4,10 +4,12 @@ package cn.lw.yuanbaoapi.ui.fragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,7 @@ public class TodayFragment extends BaseFragemnt implements CoinsTodayView {
                 }
             }
         });
+        recycler.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
     }
 
 
